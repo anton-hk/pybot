@@ -3,7 +3,7 @@ from telebot import types
 import pythoncom
 import os, shutil
 from Conversation import Convert
-bot = telebot.TeleBot("1132891715:AAE5_Us4sef-lzHlfkPCh810nRlBjsfcgwk")
+bot = telebot.TeleBot("your tokin")
 
 
 @bot.message_handler(commands=['start'])

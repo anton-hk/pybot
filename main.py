@@ -50,7 +50,7 @@ def get_text_messages(message):
 
 @bot.message_handler(content_types=['photo'])
 def get_text_messages(message):
-    file_info = bot.get_file(message.photo[1].file_id)
+    file_info = bot.get_file(message.photo[len(message.photo) - 1].file_id)
     downloaded_file = bot.download_file(file_info.file_path)
     file_path = 'C:/Users/Lumpen/PycharmProjects/pdf_bot/'
     src = file_path + file_info.file_path

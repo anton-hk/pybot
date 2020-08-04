@@ -5,7 +5,7 @@ import os, shutil
 from Conversation import Convert
 bot = telebot.TeleBot("your tokin")
 
-
+# Приветствие
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     sti = open('sticker.webp', 'rb')
@@ -19,6 +19,7 @@ def send_welcome(message):
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
     bot.send_message(message.chat.id, "Send me photo or file")
+
 
 
 @bot.message_handler(content_types=['document'])
@@ -54,11 +55,11 @@ def get_text_messages(message):
     file_path = 'C:/Users/Lumpen/PycharmProjects/pdf_bot/'
     src = file_path + file_info.file_path
     with open(src, 'wb') as new_file:
-        new_file.write(downloaded_file)
-    markup = types.InlineKeyboardMarkup(row_width=1)
+        new_file.write(downloaded_file) #  Загрузка всех фото в папку photos
+    markup = types.InlineKeyboardMarkup(row_width=1)  #  Создание клавиатуры бота
     item1 = types.InlineKeyboardButton('Convert', callback_data='convert')
     markup.add(item1)
-    bot.send_message(message.chat.id, 'Done, push the button', reply_markup=markup)
+    bot.send_message(message.chat.id, 'Done, push the button', reply_markup=markup) # Отправка сообщения с прикрепленной к нему клавиатурой
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -67,13 +68,13 @@ def callback_inline(call):
         if call.message:
             if call.data == 'convert':
                 conv = Convert()
-                conv.conversation_list_images()
+                conv.conversation_list_images() #  Конвертация всех фото
                 doc = open(r'C:\Users\Lumpen\PycharmProjects\pdf_bot\photos\file.pdf', 'rb')
                 bot.send_document(call.message.chat.id, doc)
                 doc.close()
         # bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.chat.id, reply_markup=None)
         path = r'C:\Users\Lumpen\PycharmProjects\pdf_bot\photos'
-        for filename in os.listdir(path):
+        for filename in os.listdir(path): # Удаление всех файлов в папке photos
             file_path = os.path.join(path, filename)
             try:
                 if os.path.isfile(file_path) or os.path.islink(file_path):
